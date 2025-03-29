@@ -50,13 +50,21 @@ pub fn read_functions_from_file(
                 // we can optionally assume that the function will be unmangled
                 // by other means than a direct attribute
                 if !ignore_no_mangle {
-                    let no_mangle = fun
-                        .attrs
-                        .iter()
-                        .filter_map(|attr| attr.path.get_ident())
-                        .any(|ident| *ident == "no_mangle");
+                    let has_no_mangle = fun.attrs.iter().any(|attr| {
+                        // Check for #[no_mangle]
+                        if attr.path.is_ident("no_mangle") {
+                            return true;
+                        }
+                        // Check for #[unsafe(no_mangle)]
+                        if attr.path.is_ident("unsafe") {
+                            if let Ok(nested) = attr.parse_args::<syn::Ident>() {
+                                return nested == "no_mangle";
+                            }
+                        }
+                        false
+                    });
 
-                    if !no_mangle {
+                    if !has_no_mangle {
                         continue;
                     };
                 }
