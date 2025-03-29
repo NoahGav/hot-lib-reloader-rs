@@ -51,10 +51,10 @@ pub fn read_functions_from_file(
                 // by other means than a direct attribute
                 if !ignore_no_mangle {
                     let has_no_mangle = fun.attrs.iter().any(|attr| {
-                        // Check for #[no_mangle]
-                        if attr.path.is_ident("no_mangle") {
-                            return true;
-                        }
+                        // // Check for #[no_mangle]
+                        // if attr.path.is_ident("no_mangle") {
+                        //     return true;
+                        // }
                         todo!("HELLO?");
                         // Check for #[unsafe(no_mangle)]
                         if attr.path.is_ident("unsafe") {
