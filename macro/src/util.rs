@@ -55,6 +55,7 @@ pub fn read_functions_from_file(
                         if attr.path.is_ident("no_mangle") {
                             return true;
                         }
+                        todo!("HELLO?");
                         // Check for #[unsafe(no_mangle)]
                         if attr.path.is_ident("unsafe") {
                             if let Ok(nested) = attr.parse_args::<syn::Ident>() {
